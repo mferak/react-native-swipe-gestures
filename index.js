@@ -13,7 +13,11 @@ export const swipeDirections = {
 const swipeConfig = {
   velocityThreshold: 0.3,
   directionalOffsetThreshold: 80,
-  gestureIsClickThreshold: 5
+  gestureIsClickThreshold: 5,
+  detectSwipeUp: true,
+  detectSwipeDown: true,
+  detectSwipeLeft: true,
+  detectSwipRight: true,
 };
 
 function isValidSwipe(
@@ -42,17 +46,18 @@ class GestureRecognizer extends Component {
       onPanResponderTerminate: responderEnd
     });
   }
-  
+
   componentDidUpdate(prevProps) {
     if (this.props.config !== prevProps.config) {
       this.swipeConfig = Object.assign(swipeConfig, this.props.config);
     }
   }
-  
+
   _handleShouldSetPanResponder(evt, gestureState) {
     return (
       evt.nativeEvent.touches.length === 1 &&
-      !this._gestureIsClick(gestureState)
+      !this._gestureIsClick(gestureState) &&
+      this._validateSwipe(gestureState)
     );
   }
 
@@ -60,6 +65,25 @@ class GestureRecognizer extends Component {
     return (
       Math.abs(gestureState.dx) < swipeConfig.gestureIsClickThreshold &&
       Math.abs(gestureState.dy) < swipeConfig.gestureIsClickThreshold
+    );
+  }
+
+  _validateSwipe(gestureState) {
+    const {
+      detectSwipeUp,
+      detectSwipeDown,
+      detectSwipeLeft,
+      detectSwipRight
+    } = this.swipeConfig;
+
+    const swipeDirection = this._getSwipeDirection(gestureState);
+    const { SWIPE_UP, SWIPE_DOWN, SWIPE_LEFT, SWIPE_RIGHT } = swipeDirections;
+
+    return (
+      (detectSwipeUp && swipeDirection === SWIPE_UP) ||
+      (detectSwipeDown && swipeDirection === SWIPE_DOWN) ||
+      (detectSwipeLeft && swipeDirection === SWIPE_LEFT) ||
+      (detectSwipeRight && swipeDirection === SWIPE_RIGHT)
     );
   }
 
