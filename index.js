@@ -17,7 +17,7 @@ const swipeConfig = {
   detectSwipeUp: true,
   detectSwipeDown: true,
   detectSwipeLeft: true,
-  detectSwipRight: true,
+  detectSwipeRight: true,
 };
 
 function isValidSwipe(
@@ -73,7 +73,7 @@ class GestureRecognizer extends Component {
       detectSwipeUp,
       detectSwipeDown,
       detectSwipeLeft,
-      detectSwipRight
+      detectSwipeRight
     } = this.swipeConfig;
 
     const swipeDirection = this._getSwipeDirection(gestureState);

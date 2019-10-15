@@ -49,7 +49,7 @@ declare module 'react-native-swipe-gestures' {
      * Should detect swipe right
      * @default true
      */
-    detectSwipRight?: boolean;
+    detectSwipeRight?: boolean;
 
     /**
      * Should detect swipe left
