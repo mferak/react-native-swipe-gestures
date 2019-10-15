@@ -35,7 +35,10 @@ function isValidSwipe(
 class GestureRecognizer extends Component {
   constructor(props, context) {
     super(props, context);
-    this.swipeConfig = Object.assign(swipeConfig, props.config);
+
+    // Create a clone of the config object so each instance can have its own config
+    const swipeConfigClone = JSON.parse(JSON.stringify(swipeConfig));
+    this.swipeConfig = Object.assign(swipeConfigClone, props.config);
 
     const responderEnd = this._handlePanResponderEnd.bind(this);
     const shouldSetResponder = this._handleShouldSetPanResponder.bind(this);
@@ -49,7 +52,8 @@ class GestureRecognizer extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.config !== prevProps.config) {
-      this.swipeConfig = Object.assign(swipeConfig, this.props.config);
+      const swipeConfigClone = JSON.parse(JSON.stringify(swipeConfig));
+      this.swipeConfig = Object.assign(swipeConfigClone, this.props.config);
     }
   }
 
